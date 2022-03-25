@@ -6,7 +6,9 @@ class Solution {
         int n = costs.length;
         for(int i=0;i<n;i++)
         {   
-            cost+=i<n/2? costs[i][1] : costs[i][0];
+           // cost+=i<n/2? costs[i][1] : costs[i][0];
+          if( i<n/2) cost+=costs[i][1];
+                else cost+=costs[i][0];
         }
       
         return cost;
