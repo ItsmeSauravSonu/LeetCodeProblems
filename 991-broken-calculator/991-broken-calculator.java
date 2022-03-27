@@ -4,7 +4,7 @@ class Solution {
           while( st <ta){
                   if( ta%2!=0) mn+=2;
                   else mn++;
-                  ta=(ta+1)/2;
+                  ta=(ta+1)>>1;
           }
             return  mn+( st-ta);
     }
