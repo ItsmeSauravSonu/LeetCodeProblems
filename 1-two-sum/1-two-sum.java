@@ -1,18 +1,22 @@
 class Solution {
     public int[] twoSum(int[] array, int targetSum) {
-        for(int i=0;i<array.length;i++)
-        {
-                for(int j=i+1;j<array.length;j++)
-                {
-                        int currSum = array[i]+array[j];
-                        if(currSum==targetSum)
-                        {
-                                int [] ans = {i,j};
-                                return ans;
-                        }
-                }
-        }
-         
-            return new int[0];
+           int n = array.length;
+            int [] ans = new int[2];
+          for(int i=0;i<n;i++)
+          {
+                  int first = array[i];
+                  for(int j=i+1;j<n;j++)
+                  {
+                          int second = array[j];
+                          
+                          int sum = first+second;
+                          if(sum==targetSum)
+                          {
+                              ans[0]=i;
+                              ans[1]=j;
+                          }
+                  }
+          }
+            return ans;
     }
 }
