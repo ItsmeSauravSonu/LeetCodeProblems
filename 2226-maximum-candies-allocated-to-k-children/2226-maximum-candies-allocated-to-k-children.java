@@ -2,7 +2,7 @@ class Solution {
     public int maximumCandies(int[] arr, long k) {
        int count = 0;
        int low = 1;
-        int high = 10000001;
+        int high = max(arr);
             
         while(low<=high){
                 int mid = low + ((high-low)>>1);
@@ -22,6 +22,13 @@ class Solution {
                   count+=(i/x);      
                 }
                 return count>=k;
+        }
+        public int max(int []arr){
+                int maxm = Integer.MIN_VALUE;
+                for(int i: arr){
+                        maxm = Math.max(maxm,i);
+                }
+                return maxm;
         }
     
 }
