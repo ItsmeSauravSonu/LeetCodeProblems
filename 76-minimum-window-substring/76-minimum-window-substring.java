@@ -1,62 +1,47 @@
 class Solution {
-    /*
-      2 pointer Sliding window
-                +
-      2 Hashmaps -> Acquired and Required
-
-      At any point of time we will find : Minimum window substring starting from ith index (i.e. first pointer )
-    */
     public String minWindow(String s, String t) {
-        int l = s.length();
-        int m = t.length();
-        
-        HashMap<Character,Integer> required = new HashMap<>();
-        for(char c : t.toCharArray())
-        {
-            int ov = required.getOrDefault(c, 0);
-            required.put(c, ov+1);
-        }
-        
-        HashMap<Character,Integer> acquired = new HashMap<>();
-        int min = Integer.MAX_VALUE;
-        String ans="";
-        int i = 0;
-        int j=0;
-        int found = 0;
-        while(i<l)
-        {
-            while(j<l && found!=m)
-            {
-                char cc = s.charAt(j);
-                if(required.containsKey(cc))  // one useful character we have found
-                {
-                    int ov = acquired.getOrDefault(cc, 0);
-                    acquired.put(cc, ov+1);
-                    if(acquired.get(cc) > required.get(cc)){}  // koi doosra character jyaada mill gaya
-                    else found += 1;
-                } 
-                j++;
-            }
-            
-            int window_size = j-i;
-            //System.out.println("i = "+i+", j="+j+", "+acquired);
-            if(found==m && window_size<min)
-            {
-                min = window_size;
-                ans = s.substring(i,j);
-            }
-            
-            if(required.containsKey(s.charAt(i))) // useful character we are going to loose
-            {
-                int ov = acquired.get(s.charAt(i));
-                acquired.put(s.charAt(i), ov-1);
-                if(ov-1 < required.get(s.charAt(i))) found -= 1;  // we lost one useful character
-            }
-            
-            i++;
-            
-        }
-        
-      return ans;
+     
+    // Records the starting position and length of the shortest substring
+    int start = 0, minLen = Integer.MAX_VALUE;
+    int left = 0, right = 0;
+
+    HashMap<Character, Integer> window = new HashMap<>();
+    HashMap<Character, Integer> needs  = new HashMap<>();
+    for (char c : t.toCharArray()) {
+    needs.put(c,needs.getOrDefault(c,0)+1);
     }
+
+    int match = 0;
+
+    while (right < s.length()) {
+        char c1 = s.charAt(right);
+        if (needs.containsKey(c1)) {
+            window.put(c1,window.getOrDefault(c1,0)+1);
+            if (window.get(c1) <= needs.get(c1))
+            {
+                 match++;
+            }
+               
+        }
+        right++;
+
+        while (match == t.length()) {
+            if (right - left < minLen) {
+                // Updates the position and length of the smallest string
+                start = left;
+                minLen = right - left;
+            }
+            char c2 = s.charAt(left);
+            if (needs.containsKey(c2)) {
+                int curr = window.get(c2);
+                window.put(c2, curr-1);
+                if (window.get(c2) < needs.get(c2))
+                    match--;
+            }
+            left++;
+        }
+    }
+    return minLen == Integer.MAX_VALUE ?
+                "" : s.substring(start, start+minLen);
 }
+    }
