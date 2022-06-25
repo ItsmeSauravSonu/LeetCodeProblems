@@ -1,5 +1,5 @@
 # Print adjacency list
-##  Easy 
+## Easy 
 <div class="problem-statement">
                 <p></p><p><span style="font-size:18px">Given the adjacency list&nbsp;of a bidirectional graph. Your task is to copy/clone the adjacency list for each vertex and return a new list.</span></p>
 
