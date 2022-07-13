@@ -1,15 +1,18 @@
 class Solution {
+    public int f(int idx, int []nums, int []dp)
+    {
+        if(idx==0) return nums[0];
+        if(idx<0) return 0;
+        if(dp[idx]!=-1) return dp[idx];
+        int choriKiya = nums[idx]+f(idx-2,nums,dp);
+        int choriNiKiya = 0+f(idx-1,nums,dp);
+        return dp[idx]=Math.max(choriKiya, choriNiKiya);
+    }
     public int rob(int[] nums) {
-       int n=nums.length-1;
-        int dp[]=new int[n+1];
-        dp[0]=nums[0];
-        if(n>0)
-            dp[1]=Math.max(nums[0],nums[1]);
-        
-        for(int i=2;i<=n;i++)
-            dp[i]=Math.max(nums[i]+dp[i-2],dp[i-1]);
-        
-        return dp[n];
- 
+      int n = nums.length;
+      
+      int [] dp = new int[n];
+      Arrays.fill(dp,-1);
+      return f(n-1, nums,dp);
     }
 }
