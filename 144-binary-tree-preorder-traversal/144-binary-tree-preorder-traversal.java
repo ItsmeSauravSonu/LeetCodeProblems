@@ -23,7 +23,7 @@ class Solution {
             TreeNode node = st.pop();
             if(node!=null)
             {
-            list.add(node.val);
+             list.add(node.val);
              st.add(node.right);
              st.add(node.left);
             }
