@@ -15,21 +15,22 @@
  */
 class Solution {
     public TreeNode bstToGst(TreeNode root) {
-       TreeNode cur = root;
-        Stack<TreeNode> s = new Stack<TreeNode>();
+        if(root==null) return null;
+        TreeNode curr = root;
+        Deque<TreeNode> stack = new ArrayDeque<TreeNode>();
         int sum = 0;
-        while(cur !=null || !s.isEmpty()) {
-            while(cur!=null) {
-                s.push(cur);
-                cur = cur.right;
+        while(curr!=null || !stack.isEmpty())
+        {
+            while(curr!=null)
+            {
+                stack.push(curr);
+                curr = curr.right;
             }
-            cur = s.pop();
-            sum = sum + cur.val;
-            cur.val = sum;
-            cur = cur.left;
-            
+            curr = stack.pop();
+            sum+=curr.val;
+            curr.val = sum;
+            curr = curr.left;
         }
-        return root;     
-        
+        return root;
     }
 }
