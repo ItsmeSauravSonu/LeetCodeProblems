@@ -11,8 +11,6 @@ class Solution {
 	            nums[i-snowBallSize]=t;
             }
         }
-        for(int x: nums){
-            System.out.print(x+" ");
-        }
+        
     }
 }
