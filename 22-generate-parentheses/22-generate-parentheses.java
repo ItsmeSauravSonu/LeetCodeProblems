@@ -1,21 +1,22 @@
 class Solution {
     public List<String> generateParenthesis(int n) {
-        List<String> result =  new ArrayList<>();
-        dfs(result, "",n,n);
-        return result;
+        List<String> res = new ArrayList<>();
+        f(res, "",n,n);
+        return res;
     }
-    public void dfs(List<String> result, String s, int left, int right){
-        if(left>right)
-            return;
-        if(left==0 && right == 0){
-            result.add(s);
-            return;
+    public void f(List<String> res, String s, int open, int close){
+        if(open > close)
+        return;
+ 
+    if(open==0&&close==0){
+        res.add(s);
+        return;
+    }
+        if(open>0){
+            f(res,s+"(", open-1, close);
         }
-        if(left>0){
-            dfs(result, s+"(",left-1,right);
-        }
-        if(right>0){
-            dfs(result, s+")",left,right-1);
+        if(close>0){
+            f(res,s+")",open, close-1);
         }
     }
 }
