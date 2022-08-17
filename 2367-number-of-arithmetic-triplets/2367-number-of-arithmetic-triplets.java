@@ -1,12 +1,10 @@
 class Solution {
     public int arithmeticTriplets(int[] nums, int diff) {
-        int count =0;
-        for(int i = 0 ; i < nums.length -2 ; i++){
-            for(int j =i+1 ; j < nums.length - 1; j++){
-                for(int k = j+1 ; k < nums.length ; k++){
-                    if(nums[k]-nums[j] == diff && nums[j]-nums[i] == diff) count++;
-                }
-            }
+        int count = 0;
+        Set<Integer> set = new HashSet<>();
+        for(int val : nums) set.add(val);
+        for(int i = 1 ; i < nums.length - 1 ; i++){
+            if(set.contains(nums[i]-diff) && set.contains(nums[i]+diff)) count++;
         }
         return count;
     }
