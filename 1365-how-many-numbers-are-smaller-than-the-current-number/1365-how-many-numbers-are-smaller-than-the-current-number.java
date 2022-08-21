@@ -1,17 +1,19 @@
 class Solution {
     public int[] smallerNumbersThanCurrent(int[] nums) {
-        
-        
-        int [] ans = new int[nums.length];
-        for(int i=0;i<nums.length;i++){
-            int count = 0;
-            for(int j=0;j<nums.length;j++){
-                if(i!=j && nums[j]<nums[i]){
-                    count++;
-                }
-            }
-            ans[i]=count;
+           
+           PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+           for(int i: nums){
+               pq.add(i);
+           }
+         Map<Integer,Integer> hm=new HashMap<>();
+        for(int i=0; i<nums.length; i++) {
+            hm.put(pq.peek(),pq.size()-1);
+            pq.remove();
         }
-        return ans;
+        int[] result=new int[nums.length];
+        for(int i=0; i<nums.length; i++) {
+            result[i]=hm.get(nums[i]);
+        }
+        return result;
     }
 }
