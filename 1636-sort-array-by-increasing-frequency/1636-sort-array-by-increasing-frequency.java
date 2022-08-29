@@ -1,38 +1,42 @@
 class Solution {
-    public int[] frequencySort(int[] nums) {
-         int n = nums.length;
-         HashMap<Integer,Integer> hs=new HashMap<>();
-         for(int x: nums) hs.put(x,hs.getOrDefault(x,0)+1);
-         HashMap<Integer,List<Integer>> hs1=new HashMap<>();
-        for(Map.Entry e: hs.entrySet()){
-            int k=(int)e.getKey();
-            int v=(int)e.getValue();
-            if(hs1.containsKey(v)){
-                List<Integer> l=hs1.get(v);
-                for(int j=0;j<v;j++)
-                    l.add(k);
-                hs1.put(v,l);
-            }
-            else{
-                List<Integer> l=new ArrayList<>();
-                for(int j=0;j<v;j++)
-                    l.add(k);
-                hs1.put(v,l);
-            }
+     class pair{
+        int first;
+        int second;
+       public pair(int first, int second){
+            this.first = first;
+            this.second = second;
         }
-        List<Integer> list = new ArrayList<>(hs1.keySet());
-        Collections.sort(list);
-        int k=0;
-        for(int i=0;i<list.size();i++){
-            List<Integer> l=hs1.get(list.get(i));
-            Collections.sort(l);
-            Collections.reverse(l);
-            for(int j=0;j<l.size();j++){
-                nums[k]=l.get(j);
-                k++;
-            }
+        pair(){
+            
         }
-        return nums;
     }
-    
+    public int[] frequencySort(int[] nums) {
+    int [] ans = new int[nums.length];
+    HashMap<Integer,Integer> map = new HashMap<>();
+    for(int x: nums){
+        map.put(x, map.getOrDefault(x,0)+1);
+    }
+    ArrayList<pair> list = new ArrayList<>();
+    for(int x: map.keySet()){
+        list.add(new pair(x, map.get(x)));
+    }
+    Collections.sort(list, (a,b)->{
+        if(a.second == b.second) return a.first-b.first;
+        else return b.second-a.second;
+    });
+    int k=nums.length-1;    
+    for(int i=0;i<list.size();i++){
+            while(list.get(i).second>0){
+                // System.out.print(list.get(i).first+" ");
+                ans[k--]=list.get(i).first;
+                list.get(i).second--;
+            }
+        }
+        
+        return ans;
+    }
 }
+
+/* if(p1.second==p2.second)
+        return p1.first>p2.first;
+    return p1.second<p2.second;*/
