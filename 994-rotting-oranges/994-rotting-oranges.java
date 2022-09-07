@@ -1,51 +1,50 @@
 class Solution {
-    public class Pair{
-        int row;
-        int col;
-        Pair(int row, int col){
-            this.row = row;
-            this.col = col;
-        }
-    }
+   
     public int orangesRotting(int[][] grid) {
-        LinkedList<Pair> queue = new LinkedList<>();
-        int fresh = 0;
-        for(int i=0;i<grid.length;i++){
-            for(int j=0;j<grid[0].length;j++){
-                if(grid[i][j]==2)
-                {
-                    queue.add(new Pair(i,j));
-                }else if(grid[i][j]==1){
-                    fresh++;
+       if(grid == null || grid.length == 0) return 0;
+        int rows = grid.length;
+        int cols = grid[0].length;
+        Queue<int[]> queue = new LinkedList<>();
+        int count_fresh = 0;
+        //Put the position of all rotten oranges in queue
+        //count the number of fresh oranges
+        for(int i = 0 ; i < rows ; i++) {
+            for(int j = 0 ; j < cols ; j++) {
+                if(grid[i][j] == 2) {
+                    queue.offer(new int[]{i , j});
+                }
+                if(grid[i][j] != 0) {
+                    count_fresh++;
                 }
             }
         }
-        if(fresh==0){
-            return 0;
-        }
-        int level = -1;
-        int [][] dirs = {{-1,0},{0,1},{1,0},{0,-1}};
-        while(queue.size()>0){
-            int size  = queue.size();
-            level++;
-            while(size-->0){
-                Pair rem = queue.removeFirst();
-                for(int i=0;i<dirs.length;i++){
-                    int rdash = rem.row + dirs[i][0];
-                    int cdash = rem.col + dirs[i][1];
+       
+        if(count_fresh == 0) return 0;
+        int countMin = 0, cnt = 0;
+        int dx[] = {0, 0, 1, -1};
+        int dy[] = {1, -1, 0, 0};
+        
+        //bfs starting from initially rotten oranges
+        while(!queue.isEmpty()) {
+            int size = queue.size();
+            cnt += size; 
+            for(int i = 0 ; i < size ; i++) {
+                int[] point = queue.poll();
+                for(int j = 0;j<4;j++) {
+                    int x = point[0] + dx[j];
+                    int y = point[1] + dy[j];
                     
-                    if(rdash >=0 && cdash>=0 && rdash<grid.length && cdash<grid[0].length && grid[rdash][cdash]==1){
-                        queue.addLast(new Pair(rdash,cdash));
-                        grid[rdash][cdash]=0;
-                        fresh--;
-                    }
+                    if(x < 0 || y < 0 || x >= rows || y >= cols || grid[x][y] == 0 || 
+                    grid[x][y] == 2) continue;
+                    
+                    grid[x][y] = 2;
+                    queue.offer(new int[]{x , y});
                 }
             }
+            if(queue.size() != 0) {
+                countMin++;
+            }
         }
-        if(fresh==0)
-        {
-            return level;
-        }
-        return -1;
-    }
+        return count_fresh == cnt ? countMin : -1;
+}
 }
