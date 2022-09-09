@@ -1,68 +1,55 @@
-class Node{
-    Node [] links = new Node[26];
-    boolean flag = false;
-    
-    public Node(){
-        
-    }
-    boolean containsKey(char ch){
-        return (links[ch-'a']!=null);
-    }
-    Node get(char ch){
-        return links[ch-'a'];
-    }
-    void put(char ch, Node node){
-        links[ch-'a']=node;
-    }
-    void setEnd(){
-        flag = true;
-    }
-    boolean isEnd(){
-        return flag;
-    }
-    
-}
 class Trie {
-    private static Node root;
+    private TrieNode root;
     public Trie() {
-        root = new Node();
+         root = new TrieNode();
+        
     }
     
     public void insert(String word) {
-        Node node = root;
+        TrieNode current = root;
         for(int i=0;i<word.length();i++){
-            if(!node.containsKey(word.charAt(i))){
-                node.put(word.charAt(i),new Node());
+            char ch = word.charAt(i);
+            TrieNode node = current.children.get(ch);
+            if(node == null){
+                node = new TrieNode();
+                current.children.put(ch, node);
             }
-            node = node.get(word.charAt(i));
+            current = node;
         }
-        node.setEnd();
+        current.endOfString = true;
     }
     
     public boolean search(String word) {
-        Node node = root;
+        TrieNode current = root;
         for(int i=0;i<word.length();i++){
-            if(!node.containsKey(word.charAt(i))){
-                return false;
-            }
-            node = node.get(word.charAt(i));
+            char ch = word.charAt(i);
+            TrieNode node = current.children.get(ch);
+            if(node==null) return false;
+            current = node;
         }
-        if(node.isEnd()){
-            return true;
-        }
-        return false;
+        return current.endOfString;
     }
     
     public boolean startsWith(String prefix) {
-        Node node = root; 
-        for(int i = 0;i<prefix.length();i++) {
-            if(!node.containsKey(prefix.charAt(i))) {
-                return false; 
-            }
-            node = node.get(prefix.charAt(i)); 
+         TrieNode current = root;
+        for(int i=0;i<prefix.length();i++){
+            char ch = prefix.charAt(i);
+            TrieNode node = current.children.get(ch);
+            if(node==null) return false;
+            current = node;
         }
-        return true; 
+        return true;
     }
+    
+    class TrieNode{
+        Map<Character, TrieNode> children;
+        boolean endOfString;
+        public TrieNode(){
+            children = new HashMap<>();
+            endOfString = false;
+        }
+    }
+   
 }
 
 /**
